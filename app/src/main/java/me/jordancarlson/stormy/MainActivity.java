@@ -278,14 +278,14 @@ public class MainActivity extends ActionBarActivity implements
         Log.d(TAG, currentWeather.getFormattedTime());
 
 
-        /* Remove after testing*/
+        /* Remove after testing
 
         Random generator = new Random();
         double randomValue = 1 + (120 - 1) * generator.nextDouble();
 
         currentWeather.setTemperature(randomValue);
 
-
+        */
 
         return currentWeather;
     }
