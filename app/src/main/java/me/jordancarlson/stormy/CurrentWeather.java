@@ -14,6 +14,48 @@ public class CurrentWeather {
     private double mHumidity;
     private double mPrecip;
     private String mSummary;
+    private String mState;
+    private String mCity;
+
+    public String getBgColor() {
+        if(mTemperature < 20){
+            //dark blue
+            return "#FF4682B4";
+        } else if (mTemperature < 40) {
+            // light blue
+            return "#FF87CEFA";
+        } else if (mTemperature < 60) {
+        // light green
+            return "#FF98FB98";
+        } else if (mTemperature < 80) {
+            // light yellow
+            return "#FFF0E68C";
+        } else if (mTemperature < 100) {
+            // light orange
+            return "#FFF19F11";
+        } else {
+            // Orange
+            return "#FFFF8C00";
+        }
+    }
+
+    private String mBgColor;
+
+    public String getState() {
+        return mState;
+    }
+
+    public void setState(String state) {
+        mState = state;
+    }
+
+    public String getCity() {
+        return mCity;
+    }
+
+    public void setCity(String city) {
+        mCity = city;
+    }
 
     public String getTimezone() {
         return mTimezone;
