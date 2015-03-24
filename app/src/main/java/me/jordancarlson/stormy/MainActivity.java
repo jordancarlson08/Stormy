@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,18 +63,15 @@ public class MainActivity extends ActionBarActivity implements
     @InjectView(R.id.precipValue) TextView mPrecipValue;
     @InjectView(R.id.summaryLabel) TextView mSummaryLabel;
     @InjectView(R.id.iconImageView) ImageView mIconImageView;
-    @InjectView(R.id.refreshImageView) ImageView mRefreshImageView;
-    @InjectView(R.id.progressBar) ProgressBar mProgressBar;
     @InjectView(R.id.locationLabel) TextView mLocationLabel;
     @InjectView(R.id.relativeLayout) RelativeLayout mLayout;
+    private String mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
-        mProgressBar.setVisibility(View.INVISIBLE);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -85,15 +84,21 @@ public class MainActivity extends ActionBarActivity implements
                 .setInterval(10 * 1000) //10 seconds
                 .setFastestInterval(1 * 1000); // 1 second
 
-
-        mRefreshImageView.setOnClickListener(new View.OnClickListener() {
+        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                getForecast(mLat, mLng);
-
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                ( new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getForecast(mLat, mLng);
+                        updateLocationLabel(mLocation);
+                        swipeView.setRefreshing(false);
+                    }
+                }, 1);
             }
         });
-
 
         Log.d(TAG, "Main UI ");
 
@@ -137,11 +142,11 @@ public class MainActivity extends ActionBarActivity implements
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            final String location = getLocationName(jsonData);
+                            mLocation = getLocationName(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateLocationLabel(location);
+                                    updateLocationLabel(mLocation);
                                 }
                             });
 
@@ -201,8 +206,6 @@ public class MainActivity extends ActionBarActivity implements
 
         if (isNetworkAvailable()) {
 
-            toggleRefresh();
-
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(forecastUrl)
@@ -212,23 +215,12 @@ public class MainActivity extends ActionBarActivity implements
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
                     alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
+
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
@@ -250,16 +242,6 @@ public class MainActivity extends ActionBarActivity implements
             });
         } else {
             alertUserAboutNetworkError();
-        }
-    }
-
-    private void toggleRefresh() {
-        if (mProgressBar.getVisibility() == View.INVISIBLE) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mRefreshImageView.setVisibility(View.INVISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRefreshImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -296,14 +278,14 @@ public class MainActivity extends ActionBarActivity implements
         Log.d(TAG, currentWeather.getFormattedTime());
 
 
-        /* Remove after testing
+        /* Remove after testing*/
 
         Random generator = new Random();
         double randomValue = 1 + (120 - 1) * generator.nextDouble();
 
         currentWeather.setTemperature(randomValue);
 
-        */
+
 
         return currentWeather;
     }
