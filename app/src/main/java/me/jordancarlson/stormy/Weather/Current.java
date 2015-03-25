@@ -1,13 +1,18 @@
-package me.jordancarlson.stormy;
+package me.jordancarlson.stormy.weather;
+
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import me.jordancarlson.stormy.R;
+
 /**
  * Created by jcarlson on 3/23/15.
  */
-public class CurrentWeather {
+public class Current {
     private String mIcon;
     private long mTime;
     private double mTemperature;
@@ -16,6 +21,8 @@ public class CurrentWeather {
     private String mSummary;
     private String mState;
     private String mCity;
+    public Drawable mBgDrawable;
+    private String mBgColor;
 
     public String getBgColor() {
         if(mTemperature < 20){
@@ -39,7 +46,27 @@ public class CurrentWeather {
         }
     }
 
-    private String mBgColor;
+    public Drawable getBgDrawable(Resources resources) {
+        if(mTemperature < 20){
+            //dark blue
+            return resources.getDrawable(R.drawable.bg_coldest);
+        } else if (mTemperature < 40) {
+            // light blue
+            return resources.getDrawable(R.drawable.bg_cold);
+        } else if (mTemperature < 60) {
+            // light green
+            return resources.getDrawable(R.drawable.bg_cool);
+        } else if (mTemperature < 80) {
+            // light yellow
+            return resources.getDrawable(R.drawable.bg_warm);
+        } else if (mTemperature < 100) {
+            // light orange
+            return resources.getDrawable(R.drawable.bg_hot);
+        } else {
+            // Orange
+            return resources.getDrawable(R.drawable.bg_hottest);
+        }
+    }
 
     public String getState() {
         return mState;

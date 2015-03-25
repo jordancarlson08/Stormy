@@ -8,5 +8,6 @@
     <string name="error_body">There was an error. Please try again.</string>
     <string name="ok">Ok</string>
     <string name="network_unavailable">Network is unavailable.</string>
+    <string name="title_activity_daily_forecast_activiyt">DailyForecastActiviyt</string>
 
 </resources>

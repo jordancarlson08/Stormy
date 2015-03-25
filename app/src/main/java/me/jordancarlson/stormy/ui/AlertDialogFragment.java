@@ -1,4 +1,4 @@
-package me.jordancarlson.stormy;
+package me.jordancarlson.stormy.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
