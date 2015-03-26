@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity implements
         LocationListener {
 
     public static final String LOCATION_NAME = "LOCATION_NAME";
+    public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -443,6 +444,13 @@ public class MainActivity extends ActionBarActivity implements
         Intent intent = new Intent(this, DailyForecastActivity.class);
         intent.putExtra(DAILY_FORECAST, mForecast.getDayForecast());
         intent.putExtra(LOCATION_NAME, mLocation);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.hourly)
+    public void startHourlyActivity(View view){
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        intent.putExtra(HOURLY_FORECAST, mForecast.getHourForecast());
         startActivity(intent);
     }
 
