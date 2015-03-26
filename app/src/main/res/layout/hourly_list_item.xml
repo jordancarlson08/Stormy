@@ -25,6 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/timeLabel"
         android:layout_toEndOf="@+id/timeLabel"
+        android:layout_centerVertical="true"
         android:src="@drawable/cloudy_night"/>
 
     <TextView
@@ -39,6 +40,7 @@
         android:layout_toLeftOf="@+id/temperatureLabel"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:gravity="center_horizontal"
         tools:text="Partly Cloudy"/>
 
 
