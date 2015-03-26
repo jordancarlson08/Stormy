@@ -1,8 +1,8 @@
 package me.jordancarlson.stormy.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,10 +33,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.weather.Current;
 import me.jordancarlson.stormy.weather.Day;
@@ -48,10 +49,12 @@ public class MainActivity extends ActionBarActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    public static final String LOCATION_NAME = "LOCATION_NAME";
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
     private static final String TITLE = "title";
     private static final String BUTTON = "button";
     private static final String BODY = "body";
@@ -434,4 +437,14 @@ public class MainActivity extends ActionBarActivity implements
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
+
+    @OnClick(R.id.daily)
+    public void startDailyActivity(View view){
+        Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra(DAILY_FORECAST, mForecast.getDayForecast());
+        intent.putExtra(LOCATION_NAME, mLocation);
+        startActivity(intent);
+    }
+
+
 }
