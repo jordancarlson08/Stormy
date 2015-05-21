@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import me.jordancarlson.stormy.R;
+import me.jordancarlson.stormy.utils.ToolbarUtil;
 import me.jordancarlson.stormy.weather.Current;
 import me.jordancarlson.stormy.weather.Day;
 import me.jordancarlson.stormy.weather.Forecast;
@@ -79,7 +80,9 @@ public class MainActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        ToolbarUtil.setupToolbar(this);
 
+        // Location Stuff
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -91,12 +94,13 @@ public class MainActivity extends ActionBarActivity implements
                 .setInterval(10 * 1000) //10 seconds
                 .setFastestInterval(1 * 1000); // 1 second
 
+        // Swipe to refresh
         final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeView.setRefreshing(true);
-                ( new Handler()).postDelayed(new Runnable() {
+                (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         getForecast(mLat, mLng);
@@ -106,6 +110,11 @@ public class MainActivity extends ActionBarActivity implements
                 }, 1);
             }
         });
+
+        // Navigation Drawer
+
+
+
 
         Log.d(TAG, "Main UI ");
 
