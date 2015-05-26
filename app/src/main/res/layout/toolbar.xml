@@ -5,4 +5,5 @@
     android:minHeight="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.MyApp.ActionBar"/>
+    android:background="@color/blue_500"
+    android:elevation="4dp"/>
