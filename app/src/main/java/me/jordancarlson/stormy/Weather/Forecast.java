@@ -51,7 +51,7 @@ public class Forecast {
             iconId = R.drawable.snow;
         }
         else if (iconString.equals("sleet")) {
-            iconId = R.drawable.sleet;
+            iconId = R.drawable.snow;
         }
         else if (iconString.equals("wind")) {
             iconId = R.drawable.wind;

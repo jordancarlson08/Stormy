@@ -52,7 +52,7 @@ public class DailyForecastActivity extends Activity {
                 String conditions = mDays[position].getSummary();
                 String maxTemp = mDays[position].getMaxTemp()+"";
 
-                String message = String.format("On %s the hight will be %s and it will be %s",
+                String message = String.format("On %s the high will be %s and it will be %s",
                         dayOfTheWeek,
                         maxTemp,
                         conditions);
