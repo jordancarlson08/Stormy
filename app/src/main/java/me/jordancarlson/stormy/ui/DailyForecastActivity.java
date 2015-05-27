@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.DayAdapter;
+import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
 import me.jordancarlson.stormy.weather.Day;
 
 public class DailyForecastActivity extends Activity {
@@ -37,7 +38,7 @@ public class DailyForecastActivity extends Activity {
         ButterKnife.inject(this);
 
         Intent intent = getIntent();
-        Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
+        Parcelable[] parcelables = intent.getParcelableArrayExtra(CurrentForecastFragment.DAILY_FORECAST);
 
         mDays = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
 
@@ -61,7 +62,7 @@ public class DailyForecastActivity extends Activity {
             }
         });
 
-        String location = intent.getStringExtra(MainActivity.LOCATION_NAME);
+        String location = intent.getStringExtra(CurrentForecastFragment.LOCATION_NAME);
 
         mLocationLabel.setText(location);
 

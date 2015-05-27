@@ -5,10 +5,9 @@
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">@color/blue_500</item>
         <item name="android:colorPrimaryDark">@color/blue_700</item>
+        <item name="android:windowTranslucentStatus">true</item>
 
 
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
     </style>
 
     <style name="Widget.MyApp.Toolbar" parent="Widget.AppCompat.ActionBar">

@@ -16,7 +16,8 @@ import me.jordancarlson.stormy.R;
 public class ToolbarUtil {
 
     public static void setupToolbar(final ActionBarActivity activity) {
-        // Set a toolbar to replace the action bar.
+        // Set a toolbar to replace the action bar
+        //todo: fix dis
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
         activity.setSupportActionBar(toolbar);
 
