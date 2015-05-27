@@ -3,12 +3,22 @@ package me.jordancarlson.stormy.fragments;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Arrays;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.jordancarlson.stormy.R;
+import me.jordancarlson.stormy.adapters.HourAdapter;
+import me.jordancarlson.stormy.weather.Hour;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +34,9 @@ public class HourlyForecastFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Hour[] mHours;
+    @InjectView(R.id.recyclerView) RecyclerView mRecyclerView;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -34,16 +47,13 @@ public class HourlyForecastFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment HourlyForecastFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HourlyForecastFragment newInstance(String param1, String param2) {
+    public static HourlyForecastFragment newInstance(Parcelable[] hours) {
         HourlyForecastFragment fragment = new HourlyForecastFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArray(CurrentForecastFragment.HOURLY_FORECAST, hours);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +67,8 @@ public class HourlyForecastFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Parcelable[] parcelables = getArguments().getParcelableArray(CurrentForecastFragment.HOURLY_FORECAST);
+            mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
         }
     }
 
@@ -65,7 +76,21 @@ public class HourlyForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
+        View view = inflater.inflate(R.layout.fragment_hourly_forecast, container, false);
+
+        ButterKnife.inject(this, view);
+
+        HourAdapter adapter = new HourAdapter(getActivity(), mHours);
+        mRecyclerView.setAdapter(adapter);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        //if data is of a fixed size
+        mRecyclerView.setHasFixedSize(true);
+
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

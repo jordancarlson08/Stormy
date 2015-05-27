@@ -1,6 +1,9 @@
 package me.jordancarlson.stormy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.jordancarlson.stormy.R;
+import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
+import me.jordancarlson.stormy.fragments.HourlyForecastFragment;
 import me.jordancarlson.stormy.weather.Hour;
 
 /**
@@ -22,12 +27,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     private static final int TYPE_ITEM = 1;
     private String[] mTitles;
     private int[] mIcons;
-    private Context mContext;
+    private FragmentActivity mContext;
+    private Activity mActivity;
 
     private String mCity;
 
-    public DrawerAdapter(Context context, String[] titles, int[] icons, String city) {
-        mContext = context;
+    public DrawerAdapter(Activity activity, String[] titles, int[] icons, String city) {
+        mContext = (FragmentActivity) activity;
+        mActivity = activity;
         mTitles = titles;
         mIcons = icons;
         mCity = city;
@@ -108,16 +115,45 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
         @Override
         public void onClick(View v) {
+            TextView rowText = (TextView) v.findViewById(R.id.rowText);
 
-//            String time = mTimeLabel.getText().toString();
-//            String temp = mTemperatureLabel.getText().toString();
-//            String summary = mSummaryLabel.getText().toString();
+            switch (rowText.getText().toString()) {
+                case "Current":
+                    CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
+
+                    mContext.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentFragment, currentForecastFragment)
+                            .commit();
+
+                    break;
+
+                case "Hourly":
+//                    HourlyForecastFragment hourlyForecastFragment = HourlyForecastFragment.newInstance(mForecast.getHourForecast());
 //
-//            String message = String.format("At %s it will be %s and %s",
-//                    time,
-//                    temp,
-//                    summary);
-            Toast.makeText(mContext, "Clicked!", Toast.LENGTH_SHORT).show();
+//                    mContext.getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .replace(R.id.contentFragment, hourlyForecastFragment)
+//                            .commit();
+                    break;
+
+                case "Weekly":
+                    break;
+
+                case "Settings":
+                    break;
+
+                default:
+                    CurrentForecastFragment defaultFragment = CurrentForecastFragment.newInstance();
+
+                    mContext.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentFragment, defaultFragment)
+                            .commit();
+                    break;
+            }
+            DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.DrawerLayout);
+            drawerLayout.closeDrawers();
         }
     }
 

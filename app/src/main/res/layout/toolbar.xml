@@ -7,4 +7,5 @@
     android:layout_height="wrap_content"
     android:background="@color/blue_500"
     android:paddingTop="@dimen/toolbar_padding"
+    android:theme="@style/ThemeOverlay.MyApp.Toolbar"
     android:elevation="4dp"/>

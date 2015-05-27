@@ -10,8 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +43,6 @@ import butterknife.OnClick;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.ui.AlertDialogFragment;
 import me.jordancarlson.stormy.ui.DailyForecastActivity;
-import me.jordancarlson.stormy.ui.HourlyForecastActivity;
-import me.jordancarlson.stormy.utils.ToolbarUtil;
 import me.jordancarlson.stormy.weather.Current;
 import me.jordancarlson.stormy.weather.Day;
 import me.jordancarlson.stormy.weather.Forecast;
@@ -74,6 +72,7 @@ public class CurrentForecastFragment extends Fragment implements
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     private Activity mActivity;
+    private FragmentActivity mContext;
     private OnFragmentInteractionListener mListener;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -96,12 +95,10 @@ public class CurrentForecastFragment extends Fragment implements
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CurrentForecastFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CurrentForecastFragment newInstance(String param1, String param2) {
+    public static CurrentForecastFragment newInstance() {
         CurrentForecastFragment fragment = new CurrentForecastFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -153,6 +150,7 @@ public class CurrentForecastFragment extends Fragment implements
 
     @Override
     public void onAttach(Activity activity) {
+        mContext = (FragmentActivity) activity;
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -167,6 +165,7 @@ public class CurrentForecastFragment extends Fragment implements
         super.onDetach();
         mListener = null;
     }
+
 
     @Override
     public void onResume() {
@@ -426,7 +425,7 @@ public class CurrentForecastFragment extends Fragment implements
         bundle.putString(BUTTON, getString(R.string.ok));
 
         dialog.setArguments(bundle);
-        dialog.show(getFragmentManager(), "error_dialog");
+        dialog.show(mContext.getFragmentManager(), "error_dialog");
     }
 
     private void alertUserAboutNetworkError() {
@@ -438,7 +437,7 @@ public class CurrentForecastFragment extends Fragment implements
         bundle.putString(BUTTON, getString(R.string.ok));
 
         dialog.setArguments(bundle);
-        dialog.show(getFragmentManager(), "error_dialog");
+        dialog.show(mContext.getFragmentManager(), "error_dialog");
     }
 
     private void handleNewLocation(Location location) {
@@ -511,9 +510,15 @@ public class CurrentForecastFragment extends Fragment implements
 
     @OnClick(R.id.hourly)
     public void startHourlyActivity(View view){
-        Intent intent = new Intent(mActivity, HourlyForecastActivity.class);
-        intent.putExtra(HOURLY_FORECAST, mForecast.getHourForecast());
-        startActivity(intent);
+
+        HourlyForecastFragment fragment = HourlyForecastFragment.newInstance(mForecast.getHourForecast());
+
+        mContext.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contentFragment, fragment)
+                .addToBackStack(null)
+                .commit();
+
     }
 
 }
