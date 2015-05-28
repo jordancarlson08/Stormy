@@ -2,6 +2,8 @@ package me.jordancarlson.stormy.weather;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +14,7 @@ import me.jordancarlson.stormy.R;
 /**
  * Created by jcarlson on 3/23/15.
  */
-public class Current {
+public class Current implements Parcelable {
     private String mIcon;
     private long mTime;
     private double mTemperature;
@@ -154,4 +156,50 @@ public class Current {
     public void setSummary(String summary) {
         mSummary = summary;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.mIcon);
+        dest.writeLong(this.mTime);
+        dest.writeDouble(this.mTemperature);
+        dest.writeDouble(this.mHumidity);
+        dest.writeDouble(this.mPrecip);
+        dest.writeString(this.mSummary);
+        dest.writeString(this.mState);
+        dest.writeString(this.mCity);
+        dest.writeString(this.mBgColor);
+        dest.writeString(this.mTimezone);
+    }
+
+    public Current() {
+    }
+
+    private Current(Parcel in) {
+        this.mIcon = in.readString();
+        this.mTime = in.readLong();
+        this.mTemperature = in.readDouble();
+        this.mHumidity = in.readDouble();
+        this.mPrecip = in.readDouble();
+        this.mSummary = in.readString();
+        this.mState = in.readString();
+        this.mCity = in.readString();
+        this.mBgColor = in.readString();
+        this.mTimezone = in.readString();
+    }
+
+    public static final Creator<Current> CREATOR = new Creator<Current>() {
+        public Current createFromParcel(Parcel source) {
+            return new Current(source);
+        }
+
+        public Current[] newArray(int size) {
+            return new Current[size];
+        }
+    };
 }

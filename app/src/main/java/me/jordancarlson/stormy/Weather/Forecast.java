@@ -10,7 +10,7 @@ public class Forecast {
     private Hour[] mHourForecast;
     private Day[] mDayForecast;
 
-    public Current getCurrent() {
+    public Current getCurrent()  {
         return mCurrent;
     }
 

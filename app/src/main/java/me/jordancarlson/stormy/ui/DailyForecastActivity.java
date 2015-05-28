@@ -38,7 +38,7 @@ public class DailyForecastActivity extends Activity {
         ButterKnife.inject(this);
 
         Intent intent = getIntent();
-        Parcelable[] parcelables = intent.getParcelableArrayExtra(CurrentForecastFragment.DAILY_FORECAST);
+        Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
 
         mDays = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
 
@@ -62,7 +62,7 @@ public class DailyForecastActivity extends Activity {
             }
         });
 
-        String location = intent.getStringExtra(CurrentForecastFragment.LOCATION_NAME);
+        String location = intent.getStringExtra(MainActivity.LOCATION_NAME);
 
         mLocationLabel.setText(location);
 

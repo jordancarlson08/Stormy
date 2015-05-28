@@ -32,7 +32,7 @@ public class HourlyForecastActivity extends ActionBarActivity {
         ToolbarUtil.setupToolbar(this);
 
         Intent intent = getIntent();
-        Parcelable[] parcelables = intent.getParcelableArrayExtra(CurrentForecastFragment.HOURLY_FORECAST);
+        Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.HOURLY_FORECAST);
         mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
 
         HourAdapter adapter = new HourAdapter(this, mHours);

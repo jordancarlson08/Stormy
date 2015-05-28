@@ -119,12 +119,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
             switch (rowText.getText().toString()) {
                 case "Current":
-                    CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
-
-                    mContext.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.contentFragment, currentForecastFragment)
-                            .commit();
+//                    CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
+//
+//                    mContext.getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .replace(R.id.contentFragment, currentForecastFragment)
+//                            .commit();
 
                     break;
 
@@ -144,12 +144,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
                     break;
 
                 default:
-                    CurrentForecastFragment defaultFragment = CurrentForecastFragment.newInstance();
-
-                    mContext.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.contentFragment, defaultFragment)
-                            .commit();
+//                    CurrentForecastFragment defaultFragment = CurrentForecastFragment.newInstance();
+//
+//                    mContext.getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .replace(R.id.contentFragment, defaultFragment)
+//                            .commit();
                     break;
             }
             DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.DrawerLayout);

@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.HourAdapter;
+import me.jordancarlson.stormy.ui.MainActivity;
 import me.jordancarlson.stormy.weather.Hour;
 
 
@@ -53,7 +54,7 @@ public class HourlyForecastFragment extends Fragment {
     public static HourlyForecastFragment newInstance(Parcelable[] hours) {
         HourlyForecastFragment fragment = new HourlyForecastFragment();
         Bundle args = new Bundle();
-        args.putParcelableArray(CurrentForecastFragment.HOURLY_FORECAST, hours);
+        args.putParcelableArray(MainActivity.HOURLY_FORECAST, hours);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,7 +68,7 @@ public class HourlyForecastFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            Parcelable[] parcelables = getArguments().getParcelableArray(CurrentForecastFragment.HOURLY_FORECAST);
+            Parcelable[] parcelables = getArguments().getParcelableArray(MainActivity.HOURLY_FORECAST);
             mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
         }
     }
