@@ -26,17 +26,12 @@
 
         </FrameLayout>
 
-        <!--<fragment android:id="@+id/fragment"-->
-                  <!--android:name="me.jordancarlson.stormy.fragments.CurrentForecastFragment"-->
-                  <!--tools:layout="@layout/fragment_current_forecast"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="match_parent"/>-->
     </LinearLayout>
 
     <!--Drawer Content-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
-        android:layout_width="320dp"
+        android:layout_width="275dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:background="#ffffff"

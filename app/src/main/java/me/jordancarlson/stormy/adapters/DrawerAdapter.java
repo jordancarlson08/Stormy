@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
+import me.jordancarlson.stormy.fragments.DailyForecastFragment;
 import me.jordancarlson.stormy.fragments.HourlyForecastFragment;
+import me.jordancarlson.stormy.weather.Forecast;
 import me.jordancarlson.stormy.weather.Hour;
 
 /**
@@ -29,6 +31,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     private int[] mIcons;
     private FragmentActivity mContext;
     private Activity mActivity;
+    private Forecast mForecast;
 
     private String mCity;
 
@@ -38,6 +41,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         mTitles = titles;
         mIcons = icons;
         mCity = city;
+    }
+    public DrawerAdapter(Activity activity, String[] titles, int[] icons, String city, Forecast forecast) {
+        mContext = (FragmentActivity) activity;
+        mActivity = activity;
+        mTitles = titles;
+        mIcons = icons;
+        mCity = city;
+        mForecast = forecast;
     }
 
     @Override
@@ -115,42 +126,54 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
 
         @Override
         public void onClick(View v) {
-            TextView rowText = (TextView) v.findViewById(R.id.rowText);
+            if (mForecast != null) {
+                TextView rowText = (TextView) v.findViewById(R.id.rowText);
 
-            switch (rowText.getText().toString()) {
-                case "Current":
-//                    CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance();
-//
-//                    mContext.getSupportFragmentManager()
-//                            .beginTransaction()
-//                            .replace(R.id.contentFragment, currentForecastFragment)
-//                            .commit();
+                switch (rowText.getText().toString()) {
+                    case "Current":
+                        CurrentForecastFragment currentForecastFragment = CurrentForecastFragment.newInstance(mForecast, mCity);
 
-                    break;
+                        mContext.getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.contentFragment, currentForecastFragment)
+                                .addToBackStack(null)
+                                .commit();
 
-                case "Hourly":
-//                    HourlyForecastFragment hourlyForecastFragment = HourlyForecastFragment.newInstance(mForecast.getHourForecast());
-//
-//                    mContext.getSupportFragmentManager()
-//                            .beginTransaction()
-//                            .replace(R.id.contentFragment, hourlyForecastFragment)
-//                            .commit();
-                    break;
+                        break;
 
-                case "Weekly":
-                    break;
+                    case "Hourly":
+                        HourlyForecastFragment hourlyForecastFragment = HourlyForecastFragment.newInstance(mForecast.getHourForecast());
 
-                case "Settings":
-                    break;
+                        mContext.getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.contentFragment, hourlyForecastFragment)
+                                .addToBackStack(null)
+                                .commit();
+                        break;
 
-                default:
+                    case "Daily":
+                        DailyForecastFragment dailyForecastFragment = DailyForecastFragment.newInstance(mForecast.getDayForecast(), mCity);
+
+                        mContext.getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.contentFragment, dailyForecastFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                        break;
+
+                    case "Settings":
+                        break;
+
+                    default:
 //                    CurrentForecastFragment defaultFragment = CurrentForecastFragment.newInstance();
 //
 //                    mContext.getSupportFragmentManager()
 //                            .beginTransaction()
 //                            .replace(R.id.contentFragment, defaultFragment)
 //                            .commit();
-                    break;
+                        break;
+                }
             }
             DrawerLayout drawerLayout = (DrawerLayout) mActivity.findViewById(R.id.DrawerLayout);
             drawerLayout.closeDrawers();

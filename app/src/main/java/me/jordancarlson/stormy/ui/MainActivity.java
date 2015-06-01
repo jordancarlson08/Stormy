@@ -40,6 +40,7 @@ import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.DrawerAdapter;
 import me.jordancarlson.stormy.fragments.AlertDialogFragment;
 import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
+import me.jordancarlson.stormy.fragments.DailyForecastFragment;
 import me.jordancarlson.stormy.fragments.HourlyForecastFragment;
 import me.jordancarlson.stormy.utils.ToolbarUtil;
 import me.jordancarlson.stormy.weather.Current;
@@ -53,7 +54,8 @@ public class MainActivity extends ActionBarActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         CurrentForecastFragment.OnFragmentInteractionListener,
-        HourlyForecastFragment.OnFragmentInteractionListener {
+        HourlyForecastFragment.OnFragmentInteractionListener,
+        DailyForecastFragment.OnFragmentInteractionListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -64,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements
     private static final String BUTTON = "button";
     private static final String BODY = "body";
 
-    private String mTitles[] = {"Current", "Hourly", "Weekly", "Settings"};
+    private String mTitles[] = {"Current", "Hourly", "Daily", "Settings"};
     private int mIcons[] = {R.drawable.ic_home, R.drawable.ic_clock, R.drawable.ic_calendar ,R.drawable.ic_settings};
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
@@ -88,7 +90,7 @@ public class MainActivity extends ActionBarActivity implements
         ButterKnife.inject(this);
         ToolbarUtil.setupToolbar(this);
 
-        String city = "Provo, UT";
+        String city = "Hardcoded, USA";
 
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DrawerAdapter(this, mTitles, mIcons, city);
@@ -271,12 +273,14 @@ public class MainActivity extends ActionBarActivity implements
 
                             initFragment(mForecast);
                             // todo: Send to fragment
-//                            mActivity.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    updateDisplay();
-//                                }
-//                            });
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAdapter = new DrawerAdapter(MainActivity.this, mTitles, mIcons, mLocation, mForecast);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                }
+                            });
 
                         } else {
                             alertUserAboutError();
