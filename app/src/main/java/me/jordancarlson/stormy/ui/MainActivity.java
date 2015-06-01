@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -42,6 +41,7 @@ import me.jordancarlson.stormy.fragments.AlertDialogFragment;
 import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
 import me.jordancarlson.stormy.fragments.DailyForecastFragment;
 import me.jordancarlson.stormy.fragments.HourlyForecastFragment;
+import me.jordancarlson.stormy.utils.Constants;
 import me.jordancarlson.stormy.utils.ToolbarUtil;
 import me.jordancarlson.stormy.weather.Current;
 import me.jordancarlson.stormy.weather.Day;
@@ -58,13 +58,6 @@ public class MainActivity extends ActionBarActivity implements
         DailyForecastFragment.OnFragmentInteractionListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-
-    public static final String DAILY_FORECAST = "DAILY_FORECAST";
-    public static final String LOCATION_NAME = "LOCATION_NAME";
-    public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
-    private static final String TITLE = "title";
-    private static final String BUTTON = "button";
-    private static final String BODY = "body";
 
     private String mTitles[] = {"Current", "Hourly", "Daily", "Settings"};
     private int mIcons[] = {R.drawable.ic_home, R.drawable.ic_clock, R.drawable.ic_calendar ,R.drawable.ic_settings};
@@ -90,10 +83,8 @@ public class MainActivity extends ActionBarActivity implements
         ButterKnife.inject(this);
         ToolbarUtil.setupToolbar(this);
 
-        String city = "Hardcoded, USA";
-
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new DrawerAdapter(this, mTitles, mIcons, city);
+        mAdapter = new DrawerAdapter(this, mTitles, mIcons, "");
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -113,23 +104,6 @@ public class MainActivity extends ActionBarActivity implements
 
         initLocationService();
 
-        //todo: get swipe to refresh working
-//        // Swipe to refresh
-//        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-//        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                swipeView.setRefreshing(true);
-//                (new Handler()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        getForecast(mLat, mLng);
-////                        updateLocationLabel(mLocation);
-//                        swipeView.setRefreshing(false);
-//                    }
-//                }, 1);
-//            }
-//        });
         Log.d(TAG, "On Create ");
 
     }
@@ -214,9 +188,9 @@ public class MainActivity extends ActionBarActivity implements
         AlertDialogFragment dialog = new AlertDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(TITLE, getString(R.string.error_title));
-        bundle.putString(BODY, getString(R.string.error_body));
-        bundle.putString(BUTTON, getString(R.string.ok));
+        bundle.putString(Constants.ALERT_TITLE, getString(R.string.error_title));
+        bundle.putString(Constants.ALERT_BODY, getString(R.string.error_body));
+        bundle.putString(Constants.ALERT_BUTTON, getString(R.string.ok));
 
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "error_dialog");
@@ -226,9 +200,9 @@ public class MainActivity extends ActionBarActivity implements
         AlertDialogFragment dialog = new AlertDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(TITLE, getString(R.string.error_title));
-        bundle.putString(BODY, getString(R.string.network_unavailable));
-        bundle.putString(BUTTON, getString(R.string.ok));
+        bundle.putString(Constants.ALERT_TITLE, getString(R.string.error_title));
+        bundle.putString(Constants.ALERT_BODY, getString(R.string.network_unavailable));
+        bundle.putString(Constants.ALERT_BUTTON, getString(R.string.ok));
 
         dialog.setArguments(bundle);
         dialog.show(getFragmentManager(), "error_dialog");
@@ -271,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements
                         if (response.isSuccessful()) {
                             mForecast = parseForecastDetails(jsonData);
 
-                            initFragment(mForecast);
+                            initFragment();
                             // todo: Send to fragment
 
                             runOnUiThread(new Runnable() {
@@ -455,7 +429,7 @@ public class MainActivity extends ActionBarActivity implements
 
     }
 
-    private void initFragment(Forecast forecast) {
+    private void initFragment() {
 
         if (!mLocation.isEmpty()) {
 
@@ -465,7 +439,6 @@ public class MainActivity extends ActionBarActivity implements
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.contentFragment, fragment)
-                    .addToBackStack(null)
                     .commit();
         }
     }

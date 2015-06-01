@@ -18,6 +18,7 @@ import butterknife.InjectView;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.HourAdapter;
 import me.jordancarlson.stormy.ui.MainActivity;
+import me.jordancarlson.stormy.utils.Constants;
 import me.jordancarlson.stormy.weather.Hour;
 
 
@@ -30,18 +31,9 @@ import me.jordancarlson.stormy.weather.Hour;
  * create an instance of this fragment.
  */
 public class HourlyForecastFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private Hour[] mHours;
     @InjectView(R.id.recyclerView) RecyclerView mRecyclerView;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -50,11 +42,10 @@ public class HourlyForecastFragment extends Fragment {
      *
      * @return A new instance of fragment HourlyForecastFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static HourlyForecastFragment newInstance(Parcelable[] hours) {
         HourlyForecastFragment fragment = new HourlyForecastFragment();
         Bundle args = new Bundle();
-        args.putParcelableArray(MainActivity.HOURLY_FORECAST, hours);
+        args.putParcelableArray(Constants.HOURLY_FORECAST, hours);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,8 +58,7 @@ public class HourlyForecastFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            Parcelable[] parcelables = getArguments().getParcelableArray(MainActivity.HOURLY_FORECAST);
+            Parcelable[] parcelables = getArguments().getParcelableArray(Constants.HOURLY_FORECAST);
             mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
         }
     }

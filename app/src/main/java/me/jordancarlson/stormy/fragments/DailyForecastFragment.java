@@ -23,6 +23,7 @@ import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.DayAdapter;
 import me.jordancarlson.stormy.adapters.HourAdapter;
 import me.jordancarlson.stormy.ui.MainActivity;
+import me.jordancarlson.stormy.utils.Constants;
 import me.jordancarlson.stormy.weather.Day;
 import me.jordancarlson.stormy.weather.Hour;
 
@@ -53,7 +54,7 @@ public class DailyForecastFragment extends Fragment {
     public static DailyForecastFragment newInstance(Parcelable[] days, String location) {
         DailyForecastFragment fragment = new DailyForecastFragment();
         Bundle args = new Bundle();
-        args.putParcelableArray(MainActivity.DAILY_FORECAST, days);
+        args.putParcelableArray(Constants.DAILY_FORECAST, days);
         args.putString("LOCATION", location);
         fragment.setArguments(args);
         return fragment;
@@ -67,7 +68,7 @@ public class DailyForecastFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Parcelable[] parcelables = getArguments().getParcelableArray(MainActivity.DAILY_FORECAST);
+            Parcelable[] parcelables = getArguments().getParcelableArray(Constants.DAILY_FORECAST);
             mDays = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
             mLocation = getArguments().getString("LOCATION");
         }

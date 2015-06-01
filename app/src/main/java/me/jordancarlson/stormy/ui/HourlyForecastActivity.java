@@ -16,6 +16,7 @@ import butterknife.InjectView;
 import me.jordancarlson.stormy.R;
 import me.jordancarlson.stormy.adapters.HourAdapter;
 import me.jordancarlson.stormy.fragments.CurrentForecastFragment;
+import me.jordancarlson.stormy.utils.Constants;
 import me.jordancarlson.stormy.utils.ToolbarUtil;
 import me.jordancarlson.stormy.weather.Hour;
 
@@ -32,7 +33,7 @@ public class HourlyForecastActivity extends ActionBarActivity {
         ToolbarUtil.setupToolbar(this);
 
         Intent intent = getIntent();
-        Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.HOURLY_FORECAST);
+        Parcelable[] parcelables = intent.getParcelableArrayExtra(Constants.HOURLY_FORECAST);
         mHours = Arrays.copyOf(parcelables, parcelables.length, Hour[].class);
 
         HourAdapter adapter = new HourAdapter(this, mHours);
