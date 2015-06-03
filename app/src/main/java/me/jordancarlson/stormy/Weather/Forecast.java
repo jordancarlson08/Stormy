@@ -71,4 +71,41 @@ public class Forecast {
 
         return iconId;
     }
+    public static int getIconLgId (String iconString) {
+
+        int iconId = R.drawable.clear_day_lg;
+
+        if (iconString.equals("clear-day")) {
+            iconId = R.drawable.clear_day_lg;
+        }
+        else if (iconString.equals("clear-night")) {
+            iconId = R.drawable.clear_night_lg;
+        }
+        else if (iconString.equals("rain")) {
+            iconId = R.drawable.rain_lg;
+        }
+        else if (iconString.equals("snow")) {
+            iconId = R.drawable.snow_lg;
+        }
+        else if (iconString.equals("sleet")) {
+            iconId = R.drawable.snow_lg;
+        }
+        else if (iconString.equals("wind")) {
+            iconId = R.drawable.wind_lg;
+        }
+        else if (iconString.equals("fog")) {
+            iconId = R.drawable.fog_lg;
+        }
+        else if (iconString.equals("cloudy")) {
+            iconId = R.drawable.cloudy_lg;
+        }
+        else if (iconString.equals("partly-cloudy-day")) {
+            iconId = R.drawable.partly_cloudy_lg;
+        }
+        else if (iconString.equals("partly-cloudy-night")) {
+            iconId = R.drawable.cloudy_night_lg;
+        }
+
+        return iconId;
+    }
 }

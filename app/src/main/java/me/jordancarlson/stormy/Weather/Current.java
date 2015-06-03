@@ -16,6 +16,7 @@ import me.jordancarlson.stormy.R;
  */
 public class Current implements Parcelable {
     private String mIcon;
+    private String mIconLg;
     private long mTime;
     private double mTemperature;
     private double mHumidity;
@@ -70,6 +71,14 @@ public class Current implements Parcelable {
         }
     }
 
+    public String getIconLg() {
+        return mIconLg;
+    }
+
+    public void setIconLg(String iconLg) {
+        mIconLg = iconLg;
+    }
+
     public String getState() {
         return mState;
     }
@@ -106,6 +115,10 @@ public class Current implements Parcelable {
 
     public int getIconId() {
         return Forecast.getIconId(mIcon);
+    }
+
+    public int getIconLgId() {
+        return Forecast.getIconLgId(mIcon);
     }
 
     public long getTime() {
@@ -158,6 +171,9 @@ public class Current implements Parcelable {
     }
 
 
+    public Current() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -166,6 +182,7 @@ public class Current implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.mIcon);
+        dest.writeString(this.mIconLg);
         dest.writeLong(this.mTime);
         dest.writeDouble(this.mTemperature);
         dest.writeDouble(this.mHumidity);
@@ -177,11 +194,9 @@ public class Current implements Parcelable {
         dest.writeString(this.mTimezone);
     }
 
-    public Current() {
-    }
-
     private Current(Parcel in) {
         this.mIcon = in.readString();
+        this.mIconLg = in.readString();
         this.mTime = in.readLong();
         this.mTemperature = in.readDouble();
         this.mHumidity = in.readDouble();

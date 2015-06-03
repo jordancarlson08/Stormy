@@ -131,10 +131,10 @@ public class CurrentForecastFragment extends Fragment {
     }
     private void updateDisplay() {
         Current current = mCurrent;
-        Drawable drawable = getResources().getDrawable(current.getIconId());
+        Drawable drawable = getResources().getDrawable(current.getIconLgId());
 
         mIconImageView.setImageDrawable(drawable);
-        mTemperatureLabel.setText(current.getTemperature()+"");
+        mTemperatureLabel.setText(current.getTemperature() + "°");
         mTimeLabel.setText("At " + current.getFormattedTime() + " it will be");
         mHumidityValue.setText(current.getHumidity() + "");
         mPrecipValue.setText(current.getPrecip() + "%");
